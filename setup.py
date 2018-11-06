@@ -5,9 +5,11 @@ import setuptools
 import os
 
 from distutils.sysconfig import get_python_lib
+
 site_package_dir = get_python_lib() + os.path.sep
 
 __version__ = '0.0.10'
+
 
 class get_pybind_include(object):
     """Helper class to determine the pybind11 include path
@@ -21,6 +23,7 @@ class get_pybind_include(object):
     def __str__(self):
         import pybind11
         return pybind11.get_include(self.user)
+
 
 ext_modules = [
     Extension(
@@ -97,13 +100,14 @@ class BuildExt(build_ext):
             ext.extra_compile_args = opts
         build_ext.build_extensions(self)
 
+
 install_requires = ['pybind11>=2.2']
 
 extras_require = {
-        'test': ['spec==1.4.1']
-    }
+    'test': ['spec==1.4.1']
+}
 
-if sys.version_info[0] <3:
+if sys.version_info[0] < 3:
     extras_require["test"].append("pathlib2")
 
 classifiers = [
@@ -126,13 +130,13 @@ setup(
     author='bung87,yeping zheng',
     url='https://github.com/bung87/cppjieba-py/',
     description='python bindings of cppjieba',
-    long_description= open("README.md").read(),
-    classifiers = classifiers,
+    long_description=open("README.md", encoding='utf-8').read(),
+    classifiers=classifiers,
     ext_modules=ext_modules,
-    packages=['cppjieba_py','cppjieba.dict'],
-    package_data = {
+    packages=['cppjieba_py', 'cppjieba.dict'],
+    package_data={
         'cppjieba.dict': ['*.utf8']
-     },
+    },
     include_package_data=True,
     install_requires=install_requires,
     extras_require=extras_require,
